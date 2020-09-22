@@ -3,13 +3,11 @@ import globby from 'globby'
 import { sha256 } from 'js-sha256'
 import { JSDOM } from 'jsdom'
 
-import { policies, policyArray, inputsType, cspBuildData, cspBuildHeader } from './interfaces'
-
 module.exports = {
   onPostBuild: async ({ inputs }) => {
-    const { buildDir, exclude, policies, setAllPolicies }: inputsType = inputs
+    const { buildDir, exclude, policies, setAllPolicies } = inputs
 
-    const defaultPolicies: policies = {
+    const defaultPolicies = {
       defaultSrc: '',
       childSrc: '',
       connectSrc: '',
@@ -28,10 +26,10 @@ module.exports = {
       styleSrcAttr: '',
       workerSrc: '',
     }
-    const mergedPolicies: policies = {...defaultPolicies, ...policies}
+    const mergedPolicies = {...defaultPolicies, ...policies}
 
     const htmlFiles = `${buildDir}/**/**.html`
-    const excludeFiles = (exclude || []).map((filePath: string) => `!${filePath.replace(/^!/, '')}`)
+    const excludeFiles = (exclude || []).map((filePath) => `!${filePath.replace(/^!/, '')}`)
     const lookup = [htmlFiles].concat(excludeFiles)
     const paths = await globby(lookup)
 
@@ -50,8 +48,8 @@ module.exports = {
   },
 }
 
-function generateCSPHeadersFile(buildDir: string, mergedPolicies: policies, setAllPolicies: boolean): (previousValue: cspBuildData, currentValue: string, currentIndex: number, array: string[]) => cspBuildData {
-  return (final: cspBuildData, path: string) => {
+function generateCSPHeadersFile(buildDir, mergedPolicies, setAllPolicies) {
+  return (final, path) => {
     const file = fs.readFileSync(path, 'utf-8')
     const dom = new JSDOM(file)
 
@@ -78,8 +76,8 @@ function generateCSPHeadersFile(buildDir: string, mergedPolicies: policies, setA
   }
 }
 
-function generateHashesForTag(dom: JSDOM, type: string) {
-  const hashes: Set<string> = new Set()
+function generateHashesForTag(dom, type) {
+  const hashes = new Set()
   for (const matchedElement of dom.window.document.getElementsByTagName(type)) {
     if (matchedElement.innerHTML.length) {
       const hash = sha256.arrayBuffer(matchedElement.innerHTML)
@@ -90,8 +88,8 @@ function generateHashesForTag(dom: JSDOM, type: string) {
   return hashes
 }
 
-function buildCSPArray (allPolicies: policies, setAllPolicies: boolean, hashes: policyArray) {
-  const toKebabCase = (string: string) => string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+function buildCSPArray (allPolicies, setAllPolicies, hashes) {
+  const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 
   return Object.keys(allPolicies).reduce((csp, key) => {
     if (hashes[key] || allPolicies[key] || setAllPolicies) {
@@ -105,8 +103,8 @@ function buildCSPArray (allPolicies: policies, setAllPolicies: boolean, hashes: 
   }, [])
 }
 
-function mergeHeadersFile (path: string, data: cspBuildHeader[]) {
-  const file = data.reduce((final: string, row) => {
+function mergeHeadersFile (path, data) {
+  const file = data.reduce((final, row) => {
     final += `${row.path}\n  ${row.policy}\n`
     return final
   }, '')
