@@ -1,7 +1,7 @@
-import fs from 'fs'
-import globby from 'globby'
-import { sha256 } from 'js-sha256'
-import { JSDOM } from 'jsdom'
+const fs = require('fs')
+const globby = require('globby')
+const sha256 = require('js-sha256').sha256
+const { JSDOM } = require('jsdom')
 
 module.exports = {
   onPostBuild: async ({ inputs }) => {
