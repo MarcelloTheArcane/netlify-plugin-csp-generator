@@ -6,7 +6,7 @@
   "repository": "https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator",
   "bugs": "https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/issues",
   "author": "marcellothearcane",
-  "license": "GNU GPL v3",
+  "license": "GPL-3.0-or-later",
   "private": false,
   "keywords": [
     "netlify",
