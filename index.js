@@ -6,86 +6,83 @@ const { JSDOM } = require('jsdom')
 module.exports = {
   onPostBuild: async ({ inputs }) => {
     const { buildDir, exclude, policies, setAllPolicies } = inputs
-
-    const defaultPolicies = {
-      defaultSrc: '',
-      childSrc: '',
-      connectSrc: '',
-      fontSrc: '',
-      frameSrc: '',
-      imgSrc: '',
-      manifestSrc: '',
-      mediaSrc: '',
-      objectSrc: '',
-      prefetchSrc: '',
-      scriptSrc: '',
-      scriptSrcElem: '',
-      scriptSrcAttr: '',
-      styleSrc: '',
-      styleSrcElem: '',
-      styleSrcAttr: '',
-      workerSrc: '',
-    }
-    const mergedPolicies = {...defaultPolicies, ...policies}
+    const mergedPolicies = mergeWithDefaultPolicies(policies)
 
     const htmlFiles = `${buildDir}/**/**.html`
     const excludeFiles = (exclude || []).map((filePath) => `!${filePath.replace(/^!/, '')}`)
+    console.info(`Excluding ${excludeFiles.length} ${excludeFiles.length === 1 ? 'file' : 'files'}`)
     const lookup = [htmlFiles].concat(excludeFiles)
     const paths = await globby(lookup)
+    console.info(`Found ${paths.length} HTML ${paths.length === 1 ? 'file' : 'files'}`)
 
-    console.info(`Found ${paths.length} HTML ${paths.length === 1 ? 'file' : 'files'}...`)
+    const file = paths.reduce((final, path) => {
+      const file = fs.readFileSync(path, 'utf-8')
+      const dom = new JSDOM(file)
+      const scripts = generateHashesFromElement(dom, 'script')
+      const styles = generateHashesFromElement(dom, 'style')
+      const inlineStyles = generateHashesFromStyle(dom, '[style]')
+  
+      const webPath = path.replace(new RegExp(`^${buildDir}(.*)index\\.html$`), '$1')
+      const cspString = buildCSPArray(mergedPolicies, setAllPolicies, {
+        scriptSrc: scripts,
+        styleSrc: [...styles, ...inlineStyles],
+      }).join(' ')
+  
+      final += `${webPath}\n  Content-Security-Policy: ${cspString}\n`
+      return final
+    }, [])
 
-    const result = paths.reduce(
-      generateCSPHeadersFile(buildDir, mergedPolicies, setAllPolicies),
-      {
-        updated: 0,
-        headersFile: [],
-      },
-    )
-
-    mergeHeadersFile(`${buildDir}/_headers`, result.headersFile)
-    console.info(`Generated headers for ${result.updated} ${result.updated === 1 ? 'path' : 'paths'}.  Saved at ${buildDir}/_headers.`)
+    fs.appendFileSync(`${buildDir}/_headers`, file)
+    console.info(`Done.  Saved at ${buildDir}/_headers.`)
   },
 }
 
-function generateCSPHeadersFile(buildDir, mergedPolicies, setAllPolicies) {
-  return (final, path) => {
-    const file = fs.readFileSync(path, 'utf-8')
-    const dom = new JSDOM(file)
-
-    const scripts = generateHashesForTag(dom, 'script')
-
-    if (scripts.size) {
-      const webPath = path.replace(new RegExp(`^${buildDir}`), '').replace(/index\.html$/, '')
-      const cspString = buildCSPArray(
-        mergedPolicies,
-        setAllPolicies,
-        {
-          scriptSrc: Array.from(scripts),
-        }
-      ).join(' ')
-
-      final.headersFile.push({
-        path: webPath,
-        policy: cspString,
-      })
-      final.updated++
-    }
-
-    return final
+function mergeWithDefaultPolicies (policies) {
+  const defaultPolicies = {
+    defaultSrc: '',
+    childSrc: '',
+    connectSrc: '',
+    fontSrc: '',
+    frameSrc: '',
+    imgSrc: '',
+    manifestSrc: '',
+    mediaSrc: '',
+    objectSrc: '',
+    prefetchSrc: '',
+    scriptSrc: '',
+    scriptSrcElem: '',
+    scriptSrcAttr: '',
+    styleSrc: '',
+    styleSrcElem: '',
+    styleSrcAttr: '',
+    workerSrc: '',
   }
+
+  return {...defaultPolicies, ...policies}
 }
 
-function generateHashesForTag(dom, type) {
+function generateHashesFromElement (dom, selector) {
   const hashes = new Set()
-  for (const matchedElement of dom.window.document.getElementsByTagName(type)) {
+  for (const matchedElement of dom.window.document.querySelectorAll(selector)) {
     if (matchedElement.innerHTML.length) {
       const hash = sha256.arrayBuffer(matchedElement.innerHTML)
       const base64hash = Buffer.from(hash).toString('base64')
       hashes.add(`'sha256-${base64hash}'`)
     }
   }
-  return hashes
+  return Array.from(hashes)
+}
+
+function generateHashesFromStyle (dom, selector) {
+  const hashes = new Set()
+  for (const matchedElement of dom.window.document.querySelectorAll(selector)) {
+    if (matchedElement.getAttribute('style').length) {
+      const hash = sha256.arrayBuffer(matchedElement.getAttribute('style'))
+      const base64hash = Buffer.from(hash).toString('base64')
+      hashes.add(`'sha256-${base64hash}'`)
+    }
+  }
+  return Array.from(hashes)
 }
 
 function buildCSPArray (allPolicies, setAllPolicies, hashes) {
@@ -101,14 +98,4 @@ function buildCSPArray (allPolicies, setAllPolicies, hashes) {
     }
     return csp
   }, [])
-}
-
-function mergeHeadersFile (path, data) {
-  const file = data.reduce((final, row) => {
-    final += `${row.path}\n  Content-Security-Policy: ${row.policy}\n`
-    return final
-  }, '')
-
-  console.info('Writing headers file.')
-  return fs.appendFileSync(path, file)
 }
