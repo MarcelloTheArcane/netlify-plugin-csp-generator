@@ -1,0 +1,12 @@
+name: netlify-csp-generator
+inputs:
+  - name: buildDir
+    description: Publish directory. Defaults to Netlify's publish directory.
+  - name: exclude
+    default: []
+  - name: policies
+    description: Content-Security-Policy separated by keys. Possible options are childSrc, connectSrc, fontSrc, frameSrc, imgSrc, manifestSrc, mediaSrc, objectSrc, scriptSrc, scriptSrcElem, scriptSrcAttr, styleSrc, styleSrcElem, styleSrcAttr, workerSrc
+    default: {}
+  - name: setAllPolicies
+    description: Use all policy keys, even if none are generated.  This is more restrictive.
+    default: false

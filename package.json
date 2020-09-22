@@ -1,0 +1,22 @@
+{
+  "name": "netlify-plugin-csp-generator",
+  "version": "1.0.0",
+  "description": "Generate CSP headers from inline script hashes",
+  "main": "index.js",
+  "repository": "https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator",
+  "bugs": "https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/issues",
+  "author": "marcellothearcane",
+  "license": "GNU GPL v3",
+  "private": false,
+  "keywords": [
+    "netlify",
+    "netlify-plugin"
+  ],
+  "dependencies": {
+    "@types/jsdom": "^16.2.4",
+    "@types/node": "^14.11.2",
+    "globby": "^11.0.1",
+    "js-sha256": "^0.9.0",
+    "jsdom": "^16.4.0"
+  }
+}
