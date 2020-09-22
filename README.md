@@ -116,3 +116,37 @@ If a file has any inline styles, these will be hashed:
 /file-with-inline-style/
   Content-Security-Policy: style-src 'unsafe-hashes' 'sha256-0EZqoz+oBhx7gF4nvY2bSqoGyy4zLjNF+SDQXGp/ZrY='
 ```
+
+## Help it's all broken!
+
+Oh, you.  Chances are your browser console is screaming at you, and the network tab is showing a lot of `(blocked:csp)` errors.
+
+You need to add in the domains of URLs you want to allow to your `[plugins.inputs.policies]`.  `'self'` (with quotes) is shorthand for the current page URL.
+
+Standard things to change are `defaultSrc`, `imgSrc`, `connectSrc` and `scriptSrc`.  If you have data URLs, add `data:` to your `imgSrc` policy.
+
+> Don't `unsafe-inline` everything, because that will make CSP redundant.  If in doubt, ask Google, Stackoverflow, or create a Github issue (in that order).
+
+``` toml
+[[plugins]]
+package = "netlify-plugin-csp-generator"
+
+  [plugins.inputs]
+  buildDir = "dist"
+
+  [plugins.inputs.policies]
+    defaultSrc = "'self'"
+    scriptSrc = "'self'"
+    imgSrc = "'self' data:"
+```
+
+### Help Google Analytics is broken!
+
+As well as your other policies, merge in these:
+
+``` toml
+[plugins.inputs.policies]
+  scriptSrc = "https://www.google-analytics.com https://ssl.google-analytics.com https://www.googletagmanager.com"
+  imgSrc = "https://www.google-analytics.com"
+  connectSrc = "https://www.google-analytics.com"
+```
