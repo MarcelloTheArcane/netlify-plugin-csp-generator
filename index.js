@@ -105,7 +105,7 @@ function buildCSPArray (allPolicies, setAllPolicies, hashes) {
 
 function mergeHeadersFile (path, data) {
   const file = data.reduce((final, row) => {
-    final += `${row.path}\n  ${row.policy}\n`
+    final += `${row.path}\n  Content-Security-Policy: ${row.policy}\n`
     return final
   }, '')
 
