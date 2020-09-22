@@ -40,7 +40,9 @@ package = "netlify-plugin-csp-generator"
 
 - `buildDir` is the path for the publish directory in Netlify:
   ![buildDir example](https://docs.netlify.com/images/configure-builds-edit-build-settings-ui.png)
-- `excludes` is an array of paths you don't want to include.  It defaults to an empty array.
+- `exclude` is an array of paths you don't want to include.  It defaults to an empty array.
+- `disablePolicies` is an array of policies to never include.  Files that need these rules will probably be taken from `defaultSrc` instead by your browser.
+- `disableGeneratedProperties` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
 
 ### Policies
 
@@ -149,4 +151,17 @@ As well as your other policies, merge in these:
   scriptSrc = "https://www.google-analytics.com https://ssl.google-analytics.com https://www.googletagmanager.com"
   imgSrc = "https://www.google-analytics.com"
   connectSrc = "https://www.google-analytics.com"
+```
+
+### Help Gatsby is shouting about inline styles!
+
+You should probably disable inline style generation, and use `unsafe-inline` for styles instead.  Alternatively, Gatsby has [this fine project](https://www.gatsbyjs.com/plugins/gatsby-plugin-csp/) which handles CSP.
+
+``` toml
+[[plugins]]
+package = "netlify-plugin-csp-generator"
+
+  [plugins.inputs]
+  buildDir = "dist"
+  disableGeneratedPolicies = ["styleSrc"]
 ```

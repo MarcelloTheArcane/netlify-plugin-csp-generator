@@ -5,7 +5,7 @@ const { JSDOM } = require('jsdom')
 
 module.exports = {
   onPostBuild: async ({ inputs }) => {
-    const { buildDir, exclude, policies, setAllPolicies } = inputs
+    const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies } = inputs
     const mergedPolicies = mergeWithDefaultPolicies(policies)
 
     const htmlFiles = `${buildDir}/**/**.html`
@@ -18,12 +18,14 @@ module.exports = {
     const file = paths.reduce((final, path) => {
       const file = fs.readFileSync(path, 'utf-8')
       const dom = new JSDOM(file)
-      const scripts = generateHashesFromElement(dom, 'script')
-      const styles = generateHashesFromElement(dom, 'style')
-      const inlineStyles = generateHashesFromStyle(dom, '[style]')
+
+      const shouldGenerate = (key) => !(disableGeneratedPolicies || []).includes(key)
+      const scripts = shouldGenerate('scriptSrc') ? generateHashesFromElement(dom, 'script') : []
+      const styles = shouldGenerate('styleSrc') ? generateHashesFromElement(dom, 'style') : []
+      const inlineStyles = shouldGenerate('styleSrc') ? generateHashesFromStyle(dom, '[style]') : []
   
       const webPath = path.replace(new RegExp(`^${buildDir}(.*)index\\.html$`), '$1')
-      const cspString = buildCSPArray(mergedPolicies, setAllPolicies, {
+      const cspString = buildCSPArray(mergedPolicies, disablePolicies, {
         scriptSrc: scripts,
         styleSrc: [...styles, ...inlineStyles],
       }).join(' ')
@@ -85,11 +87,11 @@ function generateHashesFromStyle (dom, selector) {
   return Array.from(hashes)
 }
 
-function buildCSPArray (allPolicies, setAllPolicies, hashes) {
+function buildCSPArray (allPolicies, disablePolicies, hashes) {
   const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 
   return Object.keys(allPolicies).reduce((csp, key) => {
-    if (hashes[key] || allPolicies[key] || setAllPolicies) {
+    if ((hashes[key] || allPolicies[key]) && !(disablePolicies || []).includes(key)) {
       csp.push(
         hashes[key]
           ? `${toKebabCase(key)} ${hashes[key].join(' ')} ${allPolicies[key]};`
