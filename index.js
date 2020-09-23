@@ -1,10 +1,13 @@
 const fs = require('fs')
+const { performance } = require('perf_hooks')
 const globby = require('globby')
 const sha256 = require('js-sha256').sha256
 const { JSDOM } = require('jsdom')
 
 module.exports = {
   onPostBuild: async ({ inputs }) => {
+    const startTime = performance.now()
+
     const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies } = inputs
     const mergedPolicies = mergeWithDefaultPolicies(policies)
 
@@ -35,7 +38,9 @@ module.exports = {
     }, [])
 
     fs.appendFileSync(`${buildDir}/_headers`, file)
-    console.info(`Done.  Saved at ${buildDir}/_headers.`)
+
+    const completedTime = performance.now() - startTime
+    console.info(`Saved at ${buildDir}/_headers - ${(completedTime / 1000).toFixed(2)} seconds`)
   },
 }
 
