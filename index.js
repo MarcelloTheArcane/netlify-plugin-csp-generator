@@ -105,7 +105,7 @@ function buildCSPArray (allPolicies, disablePolicies, hashes) {
   return Object.entries(allPolicies)
     .filter(([key, defaultPolicy]) => (hashes[key] || defaultPolicy) && !(disablePolicies || []).includes(key))
     .map(([key, defaultPolicy]) => {
-      const policy = `${hashes[key] && hashes[key].join(' ') || ''} ${defaultPolicy};`;
-      return `${camelCaseToKebabCase(key)} ${policy};`
+      const policy = `${hashes[key] && hashes[key].join(' ') || ''} ${defaultPolicy}`;
+      return `${camelCaseToKebabCase(key)} ${policy.trim()};`
     })
 }
