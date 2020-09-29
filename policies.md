@@ -76,7 +76,7 @@ Some lazy-loaders use tiny base64 data URLs as placeholder images.  If you see e
 ``` toml
 [plugins.inputs.policies]
   connectSrc = "https://*.stripe.com"
-  frameSrc = "https://*.stripe.com
+  frameSrc = "https://*.stripe.com"
   scriptSrc = "https://*.stripe.com"
 ```
 
