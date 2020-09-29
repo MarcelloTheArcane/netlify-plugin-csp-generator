@@ -123,45 +123,6 @@ If a file has any inline styles, these will be hashed:
 
 Oh, you.  Chances are your browser console is screaming at you, and the network tab is showing a lot of `(blocked:csp)` errors.
 
-You need to add in the domains of URLs you want to allow to your `[plugins.inputs.policies]`.  `'self'` (with quotes) is shorthand for the current page URL.
-
-Standard things to change are `defaultSrc`, `imgSrc`, `connectSrc` and `scriptSrc`.  If you have data URLs, add `data:` to your `imgSrc` policy.
+See our list of [example policies](./policies.md) to get started.
 
 > Don't `unsafe-inline` everything, because that will make CSP redundant.  If in doubt, ask Google, Stackoverflow, or create a Github issue (in that order).
-
-``` toml
-[[plugins]]
-package = "netlify-plugin-csp-generator"
-
-  [plugins.inputs]
-  buildDir = "dist"
-
-  [plugins.inputs.policies]
-    defaultSrc = "'self'"
-    scriptSrc = "'self'"
-    imgSrc = "'self' data:"
-```
-
-### Help Google Analytics is broken!
-
-As well as your other policies, merge in these:
-
-``` toml
-[plugins.inputs.policies]
-  scriptSrc = "https://www.google-analytics.com https://ssl.google-analytics.com https://www.googletagmanager.com"
-  imgSrc = "https://www.google-analytics.com"
-  connectSrc = "https://www.google-analytics.com"
-```
-
-### Help Gatsby is shouting about inline styles!
-
-You should probably disable inline style generation, and use `unsafe-inline` for styles instead.  Alternatively, Gatsby has [this fine project](https://www.gatsbyjs.com/plugins/gatsby-plugin-csp/) which handles CSP.
-
-``` toml
-[[plugins]]
-package = "netlify-plugin-csp-generator"
-
-  [plugins.inputs]
-  buildDir = "dist"
-  disableGeneratedPolicies = ["styleSrc"]
-```
