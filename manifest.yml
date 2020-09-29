@@ -5,7 +5,7 @@ inputs:
   - name: exclude
     default: []
   - name: policies
-    description: Content-Security-Policy separated by keys. Possible options are childSrc, connectSrc, fontSrc, frameSrc, imgSrc, manifestSrc, mediaSrc, objectSrc, scriptSrc, scriptSrcElem, scriptSrcAttr, styleSrc, styleSrcElem, styleSrcAttr, workerSrc
+    description: Content-Security-Policy separated by keys. Possible options are defaultSrc, childSrc, connectSrc, fontSrc, frameSrc, imgSrc, manifestSrc, mediaSrc, objectSrc, scriptSrc, scriptSrcElem, scriptSrcAttr, styleSrc, styleSrcElem, styleSrcAttr, workerSrc
     default: {}
   - name: disablePolicies
     description: Array of policy keys that shouldn't ever be set.
