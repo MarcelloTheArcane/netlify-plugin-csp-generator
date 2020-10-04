@@ -65,8 +65,13 @@ You can use the following policies:
 - [`styleSrcElem`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-elem)
 - [`styleSrcAttr`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-attr)
 - [`workerSrc`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/worker-src)
+- [`baseUri`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/base-uri)
+- [`formAction`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/form-action)
+- [`frameAncestors`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors)
 
 Add them under the `[plugins.inputs.policies]` object in your `netlify.toml` file, with your specified value in quotes.
+
+You can use CSP headers not in this list too - simply use the name in camel case and it will be added.
 
 ### Inline styles
 
