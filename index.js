@@ -55,6 +55,9 @@ function mergeWithDefaultPolicies (policies) {
     styleSrcElem: '',
     styleSrcAttr: '',
     workerSrc: '',
+    baseUri: '',
+    formAction: '',
+    frameAncestors: '',
   }
 
   return {...defaultPolicies, ...policies}
