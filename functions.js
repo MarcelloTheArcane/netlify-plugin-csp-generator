@@ -54,8 +54,7 @@ function createFileProcessor (buildDir, disableGeneratedPolicies) {
 
     const cspObject = {
       scriptSrc: scripts,
-      styleSrcElem: styles,
-      styleSrc: inlineStyles,
+      styleSrc: [...inlineStyles, ...styles],
     }
 
     return {
