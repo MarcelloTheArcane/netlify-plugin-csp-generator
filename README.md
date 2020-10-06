@@ -124,6 +124,23 @@ If a file has any inline styles, these will be hashed:
   Content-Security-Policy: style-src 'unsafe-hashes' 'sha256-0EZqoz+oBhx7gF4nvY2bSqoGyy4zLjNF+SDQXGp/ZrY='
 ```
 
+### Non-index.html files
+
+Generally, routes are generated with an `index.html` file, like `/some/file/path/index.html`.  However, sometimes you need to handle HTML files that aren't called 'index', for example `404.html` in Nuxt.
+
+These are generated as wildcard links and are placed above the non-wildcard paths in your `_headers` file (for specificity):
+
+``` txt
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'sha256-Qb2XxXiF09k6xbk2vTgHvWRed+mgYYGzFqZ6dShQVA0=';
+/specific-path/
+  Content-Security-Policy: default-src 'self';
+```
+
+Any matching wildcard URL has the hashes joined together - for example, if you have a `404.html` and a `500.html` with scripts/styles, all the hashes will be merged together under `/*`.
+
+> In general, it is better to generate `/path/index.html` rather than `/path.html`.
+
 ## Help it's all broken!
 
 Oh, you.  Chances are your browser console is screaming at you, and the network tab is showing a lot of `(blocked:csp)` errors.
