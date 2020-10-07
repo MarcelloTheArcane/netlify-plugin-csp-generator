@@ -1,0 +1,17 @@
+name: Run Test Suites
+
+on:
+  push
+  pull_request:
+    types: [ open ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm test
+      - run: bash <(curl -s https://codecov.io/bash)
