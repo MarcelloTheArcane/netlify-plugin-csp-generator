@@ -25,6 +25,6 @@
   },
   "jest": {
     "collectCoverage": true,
-    "coverageReporters": ["html", "text-summary"]
+    "coverageReporters": ["html", "lcov"]
   }
 }
