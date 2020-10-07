@@ -1,0 +1,2 @@
+/
+  Content-Security-Policy: default-src 'self'; script-src 'sha256-QgHoDO3umGbaH6pPry9eZ2aNL1KxNUYO9YINxJhKCFc=' 'sha256-kbu6AoxGeNvnosFj2cT7o23oVjN3kw10MbQJ0oC4opI=';
