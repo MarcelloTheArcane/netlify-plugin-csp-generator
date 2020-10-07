@@ -3,7 +3,15 @@ name: Run Test Suites
 on: [ push, pull_request ]
 
 jobs:
-  build:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        uses: vebr/jest-lcov-reporter@v0.2.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+  upload:
     runs-on: ubuntu-latest
     steps:
       - name: Code Coverage Report
