@@ -7,19 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install modules
-      run: yarn
-    - name: Run tests
-      run: yarn test --coverage --json --outputFile=./report.json
-      uses: actions/upload-artifact@v2
+    - run: yarn
+    - run: yarn test --coverage --json --outputFile=./report.json
+    - uses: actions/upload-artifact@v2
       with:
         name: report
         path: ./report.json
   upload:
     runs-on: ubuntu-latest
     steps:
-    - name: Code Coverage Report
-      uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v2
       with:
         name: report
-      run: bash <(curl -s https://codecov.io/bash) -f report.json
+    - run: bash <(curl -s https://codecov.io/bash) -f report.json
