@@ -1,0 +1,24 @@
+name: Run Test Suites
+
+on: [ push, pull_request ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: yarn
+    - run: yarn test --coverage --json --outputFile=./report.json
+    - uses: actions/upload-artifact@v2
+      with:
+        name: report
+        path: ./report.json
+
+  upload:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: report
+    - run: bash <(curl -s https://codecov.io/bash) -f report.json

@@ -1,5 +1,7 @@
 # netlify-plugin-csp-generator
 
+[![codecov](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator)
+
 > Generate [`Content-Security-Policy`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) headers from inline script and style hashes
 
 When running things like [Gatsby](https://www.gatsbyjs.com/) or [Gridsome](https://gridsome.org/), the initial state is stored inside a `<script>` tag.
