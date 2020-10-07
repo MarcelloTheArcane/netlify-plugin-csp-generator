@@ -1,9 +1,6 @@
 name: Run Test Suites
 
-on:
-  push
-  pull_request:
-    types: [ open ]
+on: [ push, pull_request ]
 
 jobs:
   build:
