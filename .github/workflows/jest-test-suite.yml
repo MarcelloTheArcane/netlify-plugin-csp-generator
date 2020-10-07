@@ -12,14 +12,14 @@ jobs:
     - name: Run tests
       run: yarn test --coverage --json --outputFile=./report.json
       uses: actions/upload-artifact@v2
-        with:
-          name: report
-          path: ./report.json
+      with:
+        name: report
+        path: ./report.json
   upload:
     runs-on: ubuntu-latest
     steps:
     - name: Code Coverage Report
       uses: actions/download-artifact@v2
-        with:
-          name: report
+      with:
+        name: report
       run: bash <(curl -s https://codecov.io/bash) -f report.json
