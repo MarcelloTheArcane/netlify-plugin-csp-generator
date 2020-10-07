@@ -6,11 +6,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: test
-        uses: vebr/jest-lcov-reporter@v0.2.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./coverage/lcov.info
+    - uses: actions/checkout@v2
+    - name: Install modules
+      run: yarn
+    - name: Run tests
+      run: yarn test --coverage
   upload:
     runs-on: ubuntu-latest
     steps:
