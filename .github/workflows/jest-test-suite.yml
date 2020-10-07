@@ -10,7 +10,7 @@ jobs:
     - name: Install modules
       run: yarn
     - name: Run tests
-      run: yarn test --coverage
+      run: yarn test --coverage --json
   upload:
     runs-on: ubuntu-latest
     steps:
