@@ -13,11 +13,11 @@ jobs:
         run: yarn
 
       - name: Run tests
-        run: echo "``` txt\n" > coverage.txt && yarn test >> coverage.txt && echo "```" >> coverage.txt
+        run: echo "``` txt\\n" > coverage.txt && yarn test >> coverage.txt && echo "```" >> coverage.txt
 
       - name: Comment PR
         uses: harupy/comment-on-pr@master
-        with:
-          file: coverage.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: coverage.txt
