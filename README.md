@@ -1,6 +1,7 @@
 # netlify-plugin-csp-generator
 
 [![codecov](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator)
+![CodeQL](https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/workflows/CodeQL/badge.svg)
 
 > Generate [`Content-Security-Policy`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) headers from inline script and style hashes
 
