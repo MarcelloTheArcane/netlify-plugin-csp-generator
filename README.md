@@ -1,5 +1,6 @@
 # netlify-plugin-csp-generator
 
+[![NPM](https://img.shields.io/npm/v/netlify-plugin-csp-generator.svg)](https://www.npmjs.com/package/netlify-plugin-csp-generator)
 [![codecov](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator)
 [![CodeQL](https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/workflows/CodeQL/badge.svg)](https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/actions?query=workflow%3ACodeQL)
 
