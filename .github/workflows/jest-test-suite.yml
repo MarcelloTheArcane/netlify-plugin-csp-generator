@@ -8,11 +8,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: yarn
-    - run: yarn test --coverage --json --outputFile=./report.json
+    - run: yarn test --coverage
     - uses: actions/upload-artifact@v2
       with:
         name: report
-        path: ./report.json
+        path: ./coverage/lcov.info
 
   upload:
     runs-on: ubuntu-latest
@@ -21,4 +21,4 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: report
-    - run: bash <(curl -s https://codecov.io/bash) -f report.json
+    - run: bash <(curl -s https://codecov.io/bash) -f ./coverage/lcov.info
