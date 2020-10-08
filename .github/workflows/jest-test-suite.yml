@@ -1,6 +1,8 @@
 name: Run Test Suites
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ $default-branch ]
 
 jobs:
   test:
