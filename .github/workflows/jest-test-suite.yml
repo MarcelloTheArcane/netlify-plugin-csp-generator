@@ -2,7 +2,9 @@ name: Test
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   test:
