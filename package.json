@@ -1,6 +1,6 @@
 {
   "name": "netlify-plugin-csp-generator",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Generate CSP headers from inline script hashes",
   "main": "index.js",
   "repository": "https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator",
@@ -25,6 +25,9 @@
   },
   "jest": {
     "collectCoverage": true,
-    "coverageReporters": ["html", "lcov"]
+    "coverageReporters": [
+      "html",
+      "lcov"
+    ]
   }
 }
