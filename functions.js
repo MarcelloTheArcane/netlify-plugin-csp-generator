@@ -98,10 +98,7 @@ function buildCSPArray (allPolicies, disablePolicies, hashes) {
 }
 
 function camelCaseToKebabCase (string) {
-  if (!cache[string]) {
-    cache[string] = string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
-  }
-  return cache[string]
+  return string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 }
 
 function splitToGlobalAndLocal (final, header) {
