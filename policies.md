@@ -96,3 +96,12 @@ Dato CMS provides images from [www.datocms-assets.com](https://www.datocms-asset
 [plugins.inputs.policies]
   imgSrc = "https://www.datocms-assets.com"
 ```
+
+## Algolia
+
+``` toml
+[plugins.inputs.policies]
+  connectSrc = "https://*.algolia.net"
+  scriptSrc = "https://*.algolia.net"
+```
+
