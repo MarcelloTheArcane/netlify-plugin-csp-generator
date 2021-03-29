@@ -19,3 +19,6 @@ inputs:
   - name: reportURI
     description: URL to report violations to.
     default: ''
+  - name: reportTo
+    description: Reporting-Endpoints group name to report violations to.
+    default: ''
