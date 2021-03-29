@@ -183,3 +183,9 @@ Oh, you.  Chances are your browser console is screaming at you, and the network 
 See our list of [example policies](./policies.md) to get started.
 
 > Don't `unsafe-inline` everything, because that will make CSP redundant.  If in doubt, ask Google, Stackoverflow, or create a Github issue (in that order).
+
+## Donations
+
+If you found this plugin useful, or are just feeling nice, feel free to [donate](https://buymeacoffee.com/maxdotreynolds)!
+
+[![Buy me a coffee](https://raw.githubusercontent.com/MarcelloTheArcane/netlify-plugin-csp-generator/master/BuyMeACoffee.png)](https://buymeacoffee.com/maxdotreynolds)
