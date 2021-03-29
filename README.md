@@ -154,10 +154,9 @@ This is useful for testing and checking directives.
 To set the header to report only, set `reportOnly = true` in your `netlify.toml` alongside your policies.
 
 ```toml
-  [plugins.inputs.policies]
-    defaultSrc = "'self'"
-    reportOnly = true
-    reportURI = "/report-csp-violations-to-this-uri"
+  [plugins.inputs]
+  reportOnly = true
+  reportURI = "/report-csp-violations-to-this-uri"
 ```
 
 > **Important**
@@ -169,10 +168,9 @@ To set the header to report only, set `reportOnly = true` in your `netlify.toml`
 The `reportURI` is deprecated in CSP Level 3 in favour of `report-to`.  To use the report-to directive, set the `reportTo` value to the group name as defined in the [`Reporting-Endpoints` header](https://w3c.github.io/reporting/) that you also need to set.
 
 ```toml
-  [plugins.inputs.policies]
-    defaultSrc = "'self'"
-    reportOnly = true
-    reportTo = "csp-violations-group"
+  [plugins.inputs]
+  reportOnly = true
+  reportTo = "csp-violations-group"
 ```
 
 > 1. You can include `reportURI` and `reportTo` without setting `reportOnly = true`, and the policy WILL be enforced and errors will *also* be reported
