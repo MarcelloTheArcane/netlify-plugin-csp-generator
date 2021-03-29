@@ -151,7 +151,7 @@ The Content-Security-Policy specification allows for reporting violations to a U
 
 This is useful for testing and checking directives.
 
-To set the header to report only, set `reportOnly: true` in your `netlify.toml` alongside your policies.
+To set the header to report only, set `reportOnly = true` in your `netlify.toml` alongside your policies.
 
 ```toml
   [plugins.inputs.policies]
@@ -164,7 +164,9 @@ To set the header to report only, set `reportOnly: true` in your `netlify.toml` 
 > 1. Setting `reportOnly` to true will NOT enforce your policy
 > 2. You need to add `reportURI` too
 
-`reportURI` is deprecated in CSP Level 3 in favour of `report-to`.  To use the report-to directive, set the `reportTo` value to the group name as defined in the [`Reporting-Endpoints` header](https://w3c.github.io/reporting/) that you also need to set.
+### Using the report-to directive
+
+The `reportURI` is deprecated in CSP Level 3 in favour of `report-to`.  To use the report-to directive, set the `reportTo` value to the group name as defined in the [`Reporting-Endpoints` header](https://w3c.github.io/reporting/) that you also need to set.
 
 ```toml
   [plugins.inputs.policies]
@@ -173,7 +175,8 @@ To set the header to report only, set `reportOnly: true` in your `netlify.toml` 
     reportTo = "csp-violations-group"
 ```
 
-> You can include `reportURI` and `reportTo` without setting `reportOnly = true`, and the policy WILL be enforced and errors will *also* be reported.
+> 1. You can include `reportURI` and `reportTo` without setting `reportOnly = true`, and the policy WILL be enforced and errors will *also* be reported
+> 2. You can set both the `reportTo` and `reportURI` directives - this is recommended to ensure maximum compatibility
 
 ## Help it's all broken!
 
