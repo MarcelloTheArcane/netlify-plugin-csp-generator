@@ -8,7 +8,7 @@ module.exports = {
   onPostBuild: async ({ inputs }) => {
     const startTime = performance.now()
 
-    const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies } = inputs
+    const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies, reportOnly, reportURI, reportTo } = inputs
     const mergedPolicies = mergeWithDefaultPolicies(policies)
 
     const htmlFiles = `${buildDir}/**/**.html`
@@ -31,7 +31,15 @@ module.exports = {
     const file = globalHeaders.concat(...localHeaders)
       .map(({ webPath, cspObject }) => {
         const cspString = buildCSPArray(mergedPolicies, disablePolicies, cspObject).join(' ')
-        return `${webPath}\n  Content-Security-Policy: ${cspString}`
+        const headerType = reportOnly ? 'Content-Security-Policy-Report-Only' : 'Content-Security-Policy'
+        let cspStringForPath = `${webPath}\n  ${headerType}: ${cspString}`
+        if (reportURI) {
+          cspStringForPath += ` report-uri ${reportURI}`
+        }
+        if (reportTo) {
+          cspStringForPath += ` report-to ${reportTo}`
+        }
+        return cspStringForPath
       }).join('\n')
 
     fs.appendFileSync(`${buildDir}/_headers`, file)
