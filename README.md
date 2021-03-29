@@ -145,6 +145,36 @@ Any matching wildcard URL has the hashes joined together - for example, if you h
 
 > In general, it is better to generate `/path/index.html` rather than `/path.html`.
 
+## Reporting violations
+
+The Content-Security-Policy specification allows for reporting violations to a URL - you can read more about it on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only).
+
+This is useful for testing and checking directives.
+
+To set the header to report only, set `reportOnly: true` in your `netlify.toml` alongside your policies.
+
+```toml
+  [plugins.inputs.policies]
+    defaultSrc = "'self'"
+    reportOnly = true
+    reportURI = "/report-csp-violations-to-this-uri"
+```
+
+> **Important**
+> 1. Setting `reportOnly` to true will NOT enforce your policy
+> 2. You need to add `reportURI` too
+
+`reportURI` is deprecated in CSP Level 3 in favour of `report-to`.  To use the report-to directive, set the `reportTo` value to the group name as defined in the [`Reporting-Endpoints` header](https://w3c.github.io/reporting/) that you also need to set.
+
+```toml
+  [plugins.inputs.policies]
+    defaultSrc = "'self'"
+    reportOnly = true
+    reportTo = "csp-violations-group"
+```
+
+> You can include `reportURI` and `reportTo` without setting `reportOnly = true`, and the policy WILL be enforced and errors will *also* be reported.
+
 ## Help it's all broken!
 
 Oh, you.  Chances are your browser console is screaming at you, and the network tab is showing a lot of `(blocked:csp)` errors.
