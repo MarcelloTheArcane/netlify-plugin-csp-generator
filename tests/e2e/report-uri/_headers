@@ -1,2 +1,2 @@
 /
-  Content-Security-Policy: default-src 'self'; report-uri /report-error
+  Content-Security-Policy: default-src 'self'; report-uri /report-error;
