@@ -81,18 +81,24 @@ function generateHashes (dom, getPropertyValue) {
 }
 
 function buildCSPArray (allPolicies, disablePolicies, hashes) {
-  const camelCaseToKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+  const disabled = disablePolicies || []
 
-  return Object.entries(allPolicies)
-    .filter(([key, defaultPolicy]) => {
-      const generatedOrDefault = (hashes[key] && hashes[key].length) || defaultPolicy
-      const notDisabled = !(disablePolicies || []).includes(key)
-      return generatedOrDefault && notDisabled
-    })
-    .map(([key, defaultPolicy]) => {
-      const policy = `${hashes[key] && hashes[key].join(' ') || ''} ${defaultPolicy}`
-      return `${camelCaseToKebabCase(key)} ${policy.trim()};`
-    })
+  return Object.entries(allPolicies).reduce((final, [key, defaultPolicy]) => {
+    const policyHashes = hashes[key]
+    const generatedOrDefault = (policyHashes && policyHashes.length) || defaultPolicy
+    const notDisabled = !disabled.includes(key)
+
+    if (notDisabled && generatedOrDefault) {
+      const policy = `${policyHashes && policyHashes.join(' ') || ''} ${defaultPolicy}`
+      final.push(`${camelCaseToKebabCase(key)} ${policy.trim()};`)
+    }
+
+    return final
+  }, [])
+}
+
+function camelCaseToKebabCase (string) {
+  return string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 }
 
 function splitToGlobalAndLocal (final, header) {

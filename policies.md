@@ -96,3 +96,20 @@ Dato CMS provides images from [www.datocms-assets.com](https://www.datocms-asset
 [plugins.inputs.policies]
   imgSrc = "https://www.datocms-assets.com"
 ```
+
+## Algolia
+
+``` toml
+[plugins.inputs.policies]
+  connectSrc = "https://*.algolia.net"
+  scriptSrc = "https://*.algolia.net"
+```
+
+## Report violations
+
+``` toml
+[plugins.inputs]
+  reportTo = "csp-endpoint" # Set the csp-endpoint in Reporting-Endpoints too
+  reportURI = "/some-report-uri"
+  # reportOnly = true # Uncomment this if you want to only report, and not enforce your policies
+```

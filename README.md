@@ -1,6 +1,8 @@
 # netlify-plugin-csp-generator
 
+[![NPM](https://img.shields.io/npm/v/netlify-plugin-csp-generator.svg)](https://www.npmjs.com/package/netlify-plugin-csp-generator)
 [![codecov](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/MarcelloTheArcane/netlify-plugin-csp-generator)
+[![CodeQL](https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/workflows/CodeQL/badge.svg)](https://github.com/MarcelloTheArcane/netlify-plugin-csp-generator/actions?query=workflow%3ACodeQL)
 
 > Generate [`Content-Security-Policy`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) headers from inline script and style hashes
 
@@ -44,7 +46,7 @@ package = "netlify-plugin-csp-generator"
   ![buildDir example](https://docs.netlify.com/images/configure-builds-edit-build-settings-ui.png)
 - `exclude` is an array of paths you don't want to include.  It defaults to an empty array.
 - `disablePolicies` is an array of policies to never include.  Files that need these rules will probably be taken from `defaultSrc` instead by your browser.
-- `disableGeneratedProperties` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
+- `disableGeneratedPolicies` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
 
 ### Policies
 
@@ -143,6 +145,37 @@ Any matching wildcard URL has the hashes joined together - for example, if you h
 
 > In general, it is better to generate `/path/index.html` rather than `/path.html`.
 
+## Reporting violations
+
+The Content-Security-Policy specification allows for reporting violations to a URL - you can read more about it on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only).
+
+This is useful for testing and checking directives.
+
+To set the header to report only, set `reportOnly = true` in your `netlify.toml` alongside your policies.
+
+```toml
+  [plugins.inputs]
+  reportOnly = true
+  reportURI = "/report-csp-violations-to-this-uri"
+```
+
+> **Important**
+> 1. Setting `reportOnly` to true will NOT enforce your policy
+> 2. You need to add `reportURI` too
+
+### Using the report-to directive
+
+The `reportURI` is deprecated in CSP Level 3 in favour of `report-to`.  To use the report-to directive, set the `reportTo` value to the group name as defined in the [`Reporting-Endpoints` header](https://w3c.github.io/reporting/) that you also need to set.
+
+```toml
+  [plugins.inputs]
+  reportOnly = true
+  reportTo = "csp-violations-group"
+```
+
+> 1. You can include `reportURI` and `reportTo` without setting `reportOnly = true`, and the policy WILL be enforced and errors will *also* be reported
+> 2. You can set both the `reportTo` and `reportURI` directives - this is recommended to ensure maximum compatibility
+
 ## Help it's all broken!
 
 Oh, you.  Chances are your browser console is screaming at you, and the network tab is showing a lot of `(blocked:csp)` errors.
@@ -150,3 +183,9 @@ Oh, you.  Chances are your browser console is screaming at you, and the network 
 See our list of [example policies](./policies.md) to get started.
 
 > Don't `unsafe-inline` everything, because that will make CSP redundant.  If in doubt, ask Google, Stackoverflow, or create a Github issue (in that order).
+
+## Donations
+
+If you found this plugin useful, or are just feeling nice, feel free to [donate](https://buymeacoffee.com/maxdotreynolds)!
+
+[![Buy me a coffee](https://raw.githubusercontent.com/MarcelloTheArcane/netlify-plugin-csp-generator/master/BuyMeACoffee.png)](https://buymeacoffee.com/maxdotreynolds)

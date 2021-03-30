@@ -11,5 +11,14 @@ inputs:
     description: Array of policy keys that shouldn't ever be set.
     default: []
   - name: disableGeneratedPolicies
-    description: Array of policy keys that shouldn't ever be computed.  Useful for disabling script-src or style-src generation
+    description: Array of policy keys that shouldn't ever be computed.  Useful for disabling script-src or style-src generation.
     default: []
+  - name: reportOnly
+    description: Boolean value for whether policy should be set to report only, instead of blocking violations.
+    default: false
+  - name: reportURI
+    description: URL to report violations to.
+    default: ''
+  - name: reportTo
+    description: Reporting-Endpoints group name to report violations to.
+    default: ''
