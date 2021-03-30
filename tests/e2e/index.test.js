@@ -8,9 +8,10 @@ const folders = [
   ['nested-folder-paths', {}, `/\n  Content-Security-Policy: default-src 'self';\n/nested/\n  Content-Security-Policy: default-src 'self';`],
   ['nested-folders-with-nonindex', {}, `/nested/*\n  Content-Security-Policy: default-src 'self';\n/\n  Content-Security-Policy: default-src 'self';`],
   ['scripts-and-styles', {}, `/\n  Content-Security-Policy: default-src 'self'; script-src 'sha256-HgP/C/HfzlJIctOVi/okNAgn76d6kykP7D0jrm1nVu0='; style-src 'sha256-ZBTj5RHLnrF+IxdRZM2RuLfjTJQXNSi7fLQHr09onfY=' 'sha256-0brZ5JHU3lwo7f/rLUc9Nu1kRemuKlxjcMBYIpWAFe0=';`],
-  ['report-only', { reportOnly: true }, `/\n  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'sha256-QgHoDO3umGbaH6pPry9eZ2aNL1KxNUYO9YINxJhKCFc=' 'sha256-kbu6AoxGeNvnosFj2cT7o23oVjN3kw10MbQJ0oC4opI=';`],
-  ['report-uri', { reportURI: '/report-error' }, `/\n  Content-Security-Policy: default-src 'self'; report-uri /report-error`],
-  ['report-to', { reportTo: 'csp-endpoint' }, `/\n  Content-Security-Policy: default-src 'self'; report-to csp-endpoint`],
+  ['report-only', { reportOnly: true, reportURI: '/report-error' }, `/\n  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'sha256-QgHoDO3umGbaH6pPry9eZ2aNL1KxNUYO9YINxJhKCFc=' 'sha256-kbu6AoxGeNvnosFj2cT7o23oVjN3kw10MbQJ0oC4opI='; report-uri /report-error;`],
+  ['report-uri', { reportURI: '/report-error' }, `/\n  Content-Security-Policy: default-src 'self'; report-uri /report-error;`],
+  ['report-to', { reportTo: 'csp-endpoint' }, `/\n  Content-Security-Policy: default-src 'self'; report-to csp-endpoint;`],
+  ['report-uri-and-report-to', { reportURI: '/report-error', reportTo: 'csp-endpoint' }, `/\n  Content-Security-Policy: default-src 'self'; report-uri /report-error; report-to csp-endpoint;`],
   ['exclude-paths', { exclude: ['./tests/e2e/exclude-paths/exclude/this-folder/index.html', '!./tests/e2e/exclude-paths/exclude/and-also-this/index.html']}, `/\n  Content-Security-Policy: default-src 'self';\n/exclude/\n  Content-Security-Policy: default-src 'self';`],
 ]
 
