@@ -37,7 +37,7 @@ module.exports = {
           cspStringForPath += ` report-uri ${reportURI}`
         }
         if (reportTo) {
-          cspStringForPath += ` report-to ${reportTo}`
+          cspStringForPath += `; report-to ${reportTo}`
         }
         return cspStringForPath
       }).join('\n')
