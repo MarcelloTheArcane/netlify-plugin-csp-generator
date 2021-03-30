@@ -30,16 +30,17 @@ module.exports = {
 
     const file = globalHeaders.concat(...localHeaders)
       .map(({ webPath, cspObject }) => {
-        const cspString = buildCSPArray(mergedPolicies, disablePolicies, cspObject).join(' ')
-        const headerType = reportOnly ? 'Content-Security-Policy-Report-Only' : 'Content-Security-Policy'
-        let cspStringForPath = `${webPath}\n  ${headerType}: ${cspString}`
+        const cspArray = buildCSPArray(mergedPolicies, disablePolicies, cspObject)
         if (reportURI) {
-          cspStringForPath += ` report-uri ${reportURI}`
+          cspArray.push(`report-uri ${reportURI};`)
         }
         if (reportTo) {
-          cspStringForPath += `; report-to ${reportTo}`
+          cspArray.push(`report-to ${reportTo};`)
         }
-        return cspStringForPath
+        const cspString = cspArray.join(' ')
+        const headerType = reportOnly ? 'Content-Security-Policy-Report-Only' : 'Content-Security-Policy'
+
+        return `${webPath}\n  ${headerType}: ${cspString}`
       }).join('\n')
 
     fs.appendFileSync(`${buildDir}/_headers`, file)
