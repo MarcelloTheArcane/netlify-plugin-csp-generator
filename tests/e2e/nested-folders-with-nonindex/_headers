@@ -1,4 +1,4 @@
-/nested/*
+/nested/*.html
   Content-Security-Policy: default-src 'self';
 /
   Content-Security-Policy: default-src 'self';

@@ -45,7 +45,7 @@ test(`globalCSP is true and path is wildcard if file path isn't index.html`, () 
         styleSrc: [],
       },
       globalCSP: true,
-      webPath: "/*",
+      webPath: "/*.html",
     },
   ])
 })
