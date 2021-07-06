@@ -49,7 +49,7 @@ package = "netlify-plugin-csp-generator"
 - `disableGeneratedPolicies` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
 - `reportOnly` generates headers with `Content-Security-Policy-Report-Only` instead, which is useful for testing. 
 - `reportURI`/`reportTo` sends violations to a given endpoint.  See [Reporting violations](#reporting-violations) for more information.
-- `generateForAllFiles` lets you generate headers for non-HTML files.  See [Non-index.html files](#non-index.html-files) for more information.
+- `generateForAllFiles` lets you generate headers for non-HTML files.  See [Non-index.html files](#non-indexhtml-files) for more information.
 
 ### Policies
 
