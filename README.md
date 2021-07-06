@@ -47,6 +47,8 @@ package = "netlify-plugin-csp-generator"
 - `exclude` is an array of paths you don't want to include.  It defaults to an empty array.
 - `disablePolicies` is an array of policies to never include.  Files that need these rules will probably be taken from `defaultSrc` instead by your browser.
 - `disableGeneratedPolicies` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
+- `reportOnly` generates headers with `Content-Security-Policy-Report-Only` instead, which is useful for testing. 
+- `reportURI`/`reportTo` sends violations to a given endpoint.  See [Reporting violations](#reporting-violations) for more information.
 
 ### Policies
 
