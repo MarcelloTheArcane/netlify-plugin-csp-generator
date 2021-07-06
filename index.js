@@ -8,7 +8,7 @@ module.exports = {
   onPostBuild: async ({ inputs }) => {
     const startTime = performance.now()
 
-    const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies, reportOnly, reportURI, reportTo } = inputs
+    const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies, reportOnly, reportURI, reportTo, generateForAllFiles } = inputs
     const mergedPolicies = mergeWithDefaultPolicies(policies)
 
     const htmlFiles = `${buildDir}/**/**.html`
@@ -19,7 +19,7 @@ module.exports = {
     const paths = await globby(lookup)
     console.info(`Found ${paths.length} HTML ${paths.length === 1 ? 'file' : 'files'}`)
 
-    const processFile = createFileProcessor(buildDir, disableGeneratedPolicies)
+    const processFile = createFileProcessor(buildDir, disableGeneratedPolicies, generateForAllFiles)
 
     const processedFileHeaders = await Promise.all(
       paths.map(path => fs.promises.readFile(path, 'utf-8').then(processFile(path)))
