@@ -125,14 +125,9 @@ function mergeCSPObjects (mergeInto, index, mergeFrom) {
   return newObject
 }
 
-function uncoveredFunction (a, b) {
-  return a + b
-}
-
 module.exports = {
   mergeWithDefaultPolicies,
   createFileProcessor,
   buildCSPArray,
   splitToGlobalAndLocal,
-  uncoveredFunction,
 }
