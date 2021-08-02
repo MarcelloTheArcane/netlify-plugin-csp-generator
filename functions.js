@@ -28,7 +28,7 @@ function mergeWithDefaultPolicies (policies) {
   return {...defaultPolicies, ...policies}
 }
 
-function createFileProcessor (buildDir, disableGeneratedPolicies) {
+function createFileProcessor (buildDir, disableGeneratedPolicies, generateForAllFiles) {
   return path => file => {
     const dom = new JSDOM(file)
     const shouldGenerate = (key) => !(disableGeneratedPolicies || []).includes(key)
@@ -48,7 +48,7 @@ function createFileProcessor (buildDir, disableGeneratedPolicies) {
       webPath = path.replace(indexMatcher, '$1')
       globalCSP = false
     } else {
-      webPath = path.replace(nonIndexMatcher, '$1*.html')
+      webPath = path.replace(nonIndexMatcher, generateForAllFiles ? '$1*' : '$1*.html')
       globalCSP = true
     }
 

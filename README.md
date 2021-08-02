@@ -49,6 +49,7 @@ package = "netlify-plugin-csp-generator"
 - `disableGeneratedPolicies` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
 - `reportOnly` generates headers with `Content-Security-Policy-Report-Only` instead, which is useful for testing. 
 - `reportURI`/`reportTo` sends violations to a given endpoint.  See [Reporting violations](#reporting-violations) for more information.
+- `generateForAllFiles` lets you generate headers for non-HTML files.  See [Non-index.html files](#non-indexhtml-files) for more information.
 
 ### Policies
 
@@ -137,15 +138,17 @@ Generally, routes are generated with an `index.html` file, like `/some/file/path
 These are generated as wildcard links and are placed above the non-wildcard paths in your `_headers` file (for specificity):
 
 ``` txt
-/*
+/*.html
   Content-Security-Policy: default-src 'self'; script-src 'sha256-Qb2XxXiF09k6xbk2vTgHvWRed+mgYYGzFqZ6dShQVA0=';
 /specific-path/
   Content-Security-Policy: default-src 'self';
 ```
 
-Any matching wildcard URL has the hashes joined together - for example, if you have a `404.html` and a `500.html` with scripts/styles, all the hashes will be merged together under `/*`.
+Any matching wildcard URL has the hashes joined together - for example, if you have a `404.html` and a `500.html` with scripts/styles, all the hashes will be merged together under `/*.html`.
 
 > In general, it is better to generate `/path/index.html` rather than `/path.html`.
+
+Using the `generateForAllFiles` setting, you can generate route keys that use `/*` instead of `/*.html`.  Be careful, this will send Content-Security-Policy headers for every file type (i.e. `.js`, `.css`, etc) which is [redundant as per the spec](https://www.w3.org/TR/2015/CR-CSP2-20150721/#which-policy-applies).
 
 ## Reporting violations
 
