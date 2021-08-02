@@ -12,6 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: yarn
+    - run: yarn test --coverage
     - uses: codecov/codecov-action@v2
       with:
         fail_ci_if_error: true
