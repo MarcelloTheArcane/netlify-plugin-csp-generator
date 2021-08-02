@@ -8,7 +8,18 @@ module.exports = {
   onPostBuild: async ({ inputs }) => {
     const startTime = performance.now()
 
-    const { buildDir, exclude, policies, disablePolicies, disableGeneratedPolicies, reportOnly, reportURI, reportTo, generateForAllFiles } = inputs
+    const {
+      buildDir,
+      exclude,
+      policies,
+      disablePolicies,
+      disableGeneratedPolicies,
+      reportOnly,
+      reportURI,
+      reportTo,
+      generateForAllFiles,
+    } = inputs
+
     const mergedPolicies = mergeWithDefaultPolicies(policies)
 
     const htmlFiles = `${buildDir}/**/**.html`
