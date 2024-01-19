@@ -2,3 +2,5 @@
   Content-Security-Policy: default-src 'self';
 /exclude/
   Content-Security-Policy: default-src 'self';
+/include/
+  Content-Security-Policy: default-src 'self';
