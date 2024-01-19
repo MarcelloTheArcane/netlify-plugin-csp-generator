@@ -131,6 +131,19 @@ If a file has any inline styles, these will be hashed:
   Content-Security-Policy: style-src 'unsafe-hashes' 'sha256-0EZqoz+oBhx7gF4nvY2bSqoGyy4zLjNF+SDQXGp/ZrY='
 ```
 
+### Excluding files and folders
+
+If you want to exclude any files or folders from being included, add them to the `exclude` array.  Wildcard matching is provided by [`globby`](https://www.npmjs.com/package/globby), which enables advanced pattern matching.
+
+``` toml
+[[plugins]]
+package = "netlify-plugin-csp-generator"
+
+  [plugins.inputs]
+  buildDir = "dist"
+  exclude = ["/exclude-file.html", "/exclude-folder/**"]
+```
+
 ### Non-index.html files
 
 Generally, routes are generated with an `index.html` file, like `/some/file/path/index.html`.  However, sometimes you need to handle HTML files that aren't called 'index', for example `404.html` in Nuxt.
