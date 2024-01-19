@@ -12,8 +12,8 @@ const folders = [
   ['report-uri', { reportURI: '/report-error' }, `/\n  Content-Security-Policy: default-src 'self'; report-uri /report-error;`],
   ['report-to', { reportTo: 'csp-endpoint' }, `/\n  Content-Security-Policy: default-src 'self'; report-to csp-endpoint;`],
   ['report-uri-and-report-to', { reportURI: '/report-error', reportTo: 'csp-endpoint' }, `/\n  Content-Security-Policy: default-src 'self'; report-uri /report-error; report-to csp-endpoint;`],
-  ['exclude-paths', { exclude: ['./tests/e2e/exclude-paths/exclude/this-folder/index.html', '!./tests/e2e/exclude-paths/exclude/and-also-this/index.html']}, `/\n  Content-Security-Policy: default-src 'self';\n/exclude/\n  Content-Security-Policy: default-src 'self';`],
-  ['exclude-wildcards', { exclude: ['**.css', '**.js', '**/exclude/**']}, `/\n  Content-Security-Policy: default-src 'self';`],
+  ['exclude-paths', { exclude: ['exclude/this-folder/index.html', 'exclude/and-also-this/index.html']}, `/\n  Content-Security-Policy: default-src 'self';\n/exclude/\n  Content-Security-Policy: default-src 'self';\n/include/\n  Content-Security-Policy: default-src 'self';`],
+  ['exclude-wildcards', { exclude: ['**.css', '**.js', 'exclude/**']}, `/\n  Content-Security-Policy: default-src 'self';\n/include/\n  Content-Security-Policy: default-src 'self';`],
   ['all-or-html-only', { generateForAllFiles: true }, `/\n  Content-Security-Policy: default-src 'self';\n/nested/\n  Content-Security-Policy: default-src 'self';`],
 ]
 

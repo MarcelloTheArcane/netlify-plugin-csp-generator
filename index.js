@@ -23,7 +23,7 @@ module.exports = {
     const mergedPolicies = mergeWithDefaultPolicies(policies)
 
     const htmlFiles = `${buildDir}/**/**.html`
-    const excludeFiles = (exclude || []).map((filePath) => `!${filePath.replace(/^!/, '')}`)
+    const excludeFiles = (exclude || []).map((filePath) => `!${buildDir}/${filePath.replace(/^!/, '')}`)
     console.info(`Excluding ${excludeFiles.length} ${excludeFiles.length === 1 ? 'file' : 'files'}`)
 
     const lookup = [htmlFiles].concat(excludeFiles)
