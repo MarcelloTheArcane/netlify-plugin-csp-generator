@@ -44,7 +44,7 @@ package = "netlify-plugin-csp-generator"
 
 - `buildDir` is the path for the publish directory in Netlify:
   ![buildDir example](https://docs.netlify.com/images/configure-builds-edit-build-settings-ui.png)
-- `exclude` is an array of paths you don't want to include.  It defaults to an empty array.
+- `exclude` is an array of paths you don't want to include.  It defaults to an empty array. See [Excluding files and folders](#excluding-files-and-folders) for more information.
 - `disablePolicies` is an array of policies to never include.  Files that need these rules will probably be taken from `defaultSrc` instead by your browser.
 - `disableGeneratedPolicies` is an array of policies never to generate. Use this to turn off default policies but still allow the key in `netlify.toml`.
 - `reportOnly` generates headers with `Content-Security-Policy-Report-Only` instead, which is useful for testing. 
