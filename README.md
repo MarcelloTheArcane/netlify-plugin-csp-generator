@@ -50,6 +50,7 @@ package = "netlify-plugin-csp-generator"
 - `reportOnly` generates headers with `Content-Security-Policy-Report-Only` instead, which is useful for testing. 
 - `reportURI`/`reportTo` sends violations to a given endpoint.  See [Reporting violations](#reporting-violations) for more information.
 - `generateForAllFiles` lets you generate headers for non-HTML files.  See [Non-index.html files](#non-indexhtml-files) for more information.
+- `debug` is a boolean that logs the file paths if set to `true`.  Use this if you are struggling to match paths in your app.
 
 ### Policies
 
