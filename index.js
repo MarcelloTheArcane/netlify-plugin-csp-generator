@@ -18,6 +18,7 @@ module.exports = {
       reportURI,
       reportTo,
       generateForAllFiles,
+      debug,
     } = inputs
 
     const mergedPolicies = mergeWithDefaultPolicies(policies)
@@ -29,6 +30,17 @@ module.exports = {
     const lookup = [htmlFiles].concat(excludeFiles)
     const paths = await globby(lookup)
     console.info(`Found ${paths.length} HTML ${paths.length === 1 ? 'file' : 'files'}`)
+
+    if (debug === true) {
+      console.log('Lookup:', lookup)
+      console.log('Paths:', paths)
+
+      const excludedLookup = (exclude || []).map((filePath) => `${buildDir}/${filePath.replace(/^!/, '')}`)
+      const excludedPaths = await globby(excludedLookup)
+
+      console.log(`Excluded ${excludedPaths.length} ${excludedPaths.length === 1 ? 'path' : 'paths'}`)
+      console.log('Excluded:', excludedPaths)
+    }
 
     const processFile = createFileProcessor(buildDir, disableGeneratedPolicies, generateForAllFiles)
 
