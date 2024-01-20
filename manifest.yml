@@ -25,3 +25,6 @@ inputs:
   - name: generateForAllFiles
     description: Generate Content-Security-Policy headers for all file extensions.  The alternative is to only generate for HTML files.
     default: false
+  - name: debug
+    description: Log path-matching information to the console.
+    default: false
